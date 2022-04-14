@@ -13,6 +13,7 @@ public:
     QTime departureTime;
     int numberOfSeats;
     QString toString();
+    QString toShortString();
 };
 
 #endif // TRIP_H

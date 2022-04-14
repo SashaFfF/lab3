@@ -10,12 +10,14 @@ CONFIG += c++11
 
 SOURCES += \
     collection.cpp \
+    list.cpp \
     main.cpp \
     mainwindow.cpp \
     trip.cpp
 
 HEADERS += \
     collection.h \
+    list.h \
     mainwindow.h \
     trip.h
 

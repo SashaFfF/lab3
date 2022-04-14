@@ -17,3 +17,14 @@ QString Trip::toString()
     return result;
 
 }
+
+
+QString Trip::toShortString()
+{
+    QString result = "";
+     result =dateOfDeparture.toString("dd.MM.yyyy") + "/n" + destination +
+             "/n" + departureTime.toString("hh.mm") + "/n" + QString::number(numberOfSeats);
+     return result;
+
+
+}

@@ -2,6 +2,7 @@
 #define COLLECTION_H
 #include <QFile>
 #include "trip.h"
+#include "list.h"
 
 
 class Collection

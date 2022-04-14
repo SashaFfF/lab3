@@ -41,6 +41,42 @@ void Collection::LoadData(){
 
 }
 
+void Collection::ReloadData()
+{
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+            return;
+
+    QTextStream in(&file);
+    //int N=5*countOfTrips;
+
+    int N=0;
+    while (!in.atEnd()) {
+        QString line = in.readLine();
+        N++;
+      }
+
+    file.close();
+    countOfTrips = N/5;
+    QString *arr=new QString[N];
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+            return;
+    int i=0;
+    while (!in.atEnd()) {
+        QString line = in.readLine();
+        arr[i]=line;
+        i++;
+      }
+    file.close();
+    int j=0;
+    for(int i=0; i<N; i+=5){
+        trips[j] = new Trip(arr[i].toInt(), arr[i+1],arr[i+2],
+                QTime::fromString(arr[i+3],"hh.mm"), QTime::fromString(arr[i+4],"hh.mm"));
+        j++;
+    }
+
+
+}
+
 QString Collection::PrintData(){
     QString result="";
     for (int i=0; i<countOfTrips; i++){
@@ -124,36 +160,88 @@ void Collection::Delete(int number)
         writeStream << result;
         file.close();
     }
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-            return;
+    ReloadData();
 
-    QTextStream in(&file);
-    //int N=5*countOfTrips;
+}
 
-    int N=0;
-    while (!in.atEnd()) {
-        QString line = in.readLine();
-        N++;
-      }
-
-    file.close();
-    countOfTrips = N/5;
-    QString *arr=new QString[N];
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-            return;
-    int i=0;
-    while (!in.atEnd()) {
-        QString line = in.readLine();
-        arr[i]=line;
-        i++;
-      }
-    file.close();
-    int j=0;
-    for(int i=0; i<N; i+=5){
-        trips[j] = new Trip(arr[i].toInt(), arr[i+1],arr[i+2],
-                QTime::fromString(arr[i+3],"hh.mm"), QTime::fromString(arr[i+4],"hh.mm"));
-        j++;
+void Collection::ChangeByNumber(int number, QString str)
+{
+    List* tr = new List();
+    for(int i=0; i<countOfTrips; i++){
+        if(trips[i]->number == number){
+            trips[i]->number=str.toInt();
+            tr->Add(trips[i]);
+        }
+        else{
+            tr->Add(trips[i]);
+        }
     }
+    tr->Show();
+    QString result=tr->PrintShort();
+    qDebug() << result;
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)){
+            return;
+    }
+    else{
+        QTextStream writeStream(&file);
+        writeStream << result;
+        file.close();
+    }
+    ReloadData();
+
+}
+
+void Collection::ChangeByType(int number, QString type)
+{
+    List* tr = new List();
+    for(int i=0; i<countOfTrips; i++){
+        if(trips[i]->number == number){
+            trips[i]->busType=type;
+            tr->Add(trips[i]);
+        }
+        else{
+            tr->Add(trips[i]);
+        }
+    }
+    tr->Show();
+    QString result=tr->PrintShort();
+    qDebug() << result;
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)){
+            return;
+    }
+    else{
+        QTextStream writeStream(&file);
+        writeStream << result;
+        file.close();
+    }
+    ReloadData();
+
+}
+
+void Collection::ChangeByPlace(int number, QString place)
+{
+    List* tr = new List();
+    for(int i=0; i<countOfTrips; i++){
+        if(trips[i]->number == number){
+            trips[i]->destination=place;
+            tr->Add(trips[i]);
+        }
+        else{
+            tr->Add(trips[i]);
+        }
+    }
+    tr->Show();
+    QString result=tr->PrintShort();
+    qDebug() << result;
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)){
+            return;
+    }
+    else{
+        QTextStream writeStream(&file);
+        writeStream << result;
+        file.close();
+    }
+    ReloadData();
 
 }
 

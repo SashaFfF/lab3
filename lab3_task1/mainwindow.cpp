@@ -59,6 +59,16 @@ MainWindow::MainWindow(){
     deleteEdit = new QLineEdit();
     deleteButton = new QPushButton("DELETE");
 
+    changeLabel = new QLabel("Change the trip selected by number:");
+    changeEdit = new QLineEdit();
+    changeEdit->setValidator(new QIntValidator(0, 100, this));
+
+    changeComboBox=new QComboBox();
+    changeComboBox->addItem(tr("Type"));
+    changeComboBox->addItem(tr("Destination"));
+    changeComboBox->addItem(tr("Number"));
+    changeButton = new QPushButton("CHANGE");
+    newValue = new QLineEdit();
 
     mainLayout = new QGridLayout;
     mainLayout->addWidget(header,0,1);
@@ -96,6 +106,11 @@ MainWindow::MainWindow(){
     mainLayout->addWidget(deleteLabel,12,1);
     mainLayout->addWidget(deleteEdit,12,2);
     mainLayout->addWidget(deleteButton,12,3);
+    mainLayout->addWidget(changeLabel,13,1);
+    mainLayout->addWidget(changeEdit,13,2);
+    mainLayout->addWidget(changeComboBox,13,3);
+    mainLayout->addWidget(newValue,13,4);
+    mainLayout->addWidget(changeButton,13,5);
 
     connect(addButton, &QPushButton::clicked,this, &MainWindow::addToFile);
     connect(searchByTimeButton, &QPushButton::clicked,this, &MainWindow::searchByTime);
@@ -103,6 +118,8 @@ MainWindow::MainWindow(){
     connect(busesOnRouteButton, &QPushButton::clicked,this, &MainWindow::onRoute);
     connect(busesInParkButton, &QPushButton::clicked,this, &MainWindow::inPark);
     connect(deleteButton, &QPushButton::clicked,this, &MainWindow::Delete);
+    connect(changeButton, &QPushButton::clicked,this, &MainWindow::ChangeBox);
+
 
     setLayout(mainLayout);
 
@@ -180,6 +197,47 @@ void MainWindow::Delete()
     collection->Delete(number);
     listOfTrips->setText({});
     ex->setText(collection->PrintData());
+    busesInParkField->setText({});
+    searchByPlaceField->setText({});
+    searchByTimeField->setText({});
+    busesOnRouteField->setText({});
+}
+
+void MainWindow::ChangeBox()
+{
+    int comboBoxIndex = changeComboBox->currentIndex();
+        switch (comboBoxIndex) {
+        case 0:
+        {
+            int number = changeEdit->text().toInt();
+            QString type = newValue->text();
+            collection->ChangeByType(number, type);
+            listOfTrips->setText({});
+            ex->setText(collection->PrintData());
+            break;
+        }
+        case 1:
+        {
+            int number = changeEdit->text().toInt();
+            QString place = newValue->text();
+            collection->ChangeByPlace(number, place);
+            listOfTrips->setText({});
+            ex->setText(collection->PrintData());
+            break;
+
+        }
+        case 2:
+        {
+            newValue->setValidator(new QIntValidator(0, 100, this));
+            int number = changeEdit->text().toInt();
+            QString str = newValue->text();
+            collection->ChangeByNumber(number, str);
+            listOfTrips->setText({});
+            ex->setText(collection->PrintData());
+            break;
+        }
+        }
+
 }
 
 

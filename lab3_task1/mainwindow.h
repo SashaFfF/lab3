@@ -26,6 +26,7 @@ private slots:
     void inPark();
     void addToFile();
     void Delete();
+    void ChangeBox();
 
 private:
     Collection *collection;
@@ -65,6 +66,11 @@ private:
     QLabel *deleteLabel;
     QLineEdit *deleteEdit;
     QPushButton *deleteButton;
+    QLabel *changeLabel;
+    QLineEdit *changeEdit;
+    QComboBox *changeComboBox;
+    QPushButton *changeButton;
+    QLineEdit *newValue;
 
 
 

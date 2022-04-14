@@ -135,10 +135,10 @@ QString Collection::PrintData(){
 
 QString Collection::tripsByTime(QString time, QString place)
 {
-    QList<Trip*> tr;
+    List* tr = new List();
     for(int i=0; i<countOfTrips; i++){
         if(trips[i]->departureTime.toString()<=time && trips[i]->destination==place){
-            tr.append(trips[i]);
+            tr->Add(trips[i]);
             if(trips[i]->numberOfSeats==0){
                 QMessageBox ms;
                 ms.setText("There are trips without empty seats in the list!");
@@ -146,27 +146,21 @@ QString Collection::tripsByTime(QString time, QString place)
             }
         }
     }
-    QString result="";
-    for(int i=0; i<tr.length(); i++){
-        result+=tr[i]->toString();
-        result += "\n";
-    }
+    tr->Show();
+    QString result=tr->Print();
     return result;
 }
 
 QString Collection::tripsByDate(QString date)
 {
-    QList<Trip*> tr;
+    List* tr = new List();
     for(int i=0; i<countOfTrips; i++){
         if(trips[i]->dateOfDeparture.toString("dd.MM.yyyy")==date){
-            tr.append(trips[i]);
+            tr->Add(trips[i]);
         }
     }
-    QString result="";
-    for(int i=0; i<tr.length(); i++){
-        result+=tr[i]->toString();
-        result += "\n";
-    }
+    tr->Show();
+    QString result=tr->Print();
     return result;
 }
 

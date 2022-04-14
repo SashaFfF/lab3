@@ -14,12 +14,16 @@ public:
     int countOfTrips=8;
     Trip* trips[100]={};
     void LoadData();
+    void ReloadData();
     QString PrintData();
     QString tripsByTime(QString time, QString place);
     QString tripsByPlace(QString place);
     QString busesOnRoute();
     QString busesInPark();
     void Delete(int number);
+    void ChangeByNumber(int number, QString str);
+    void ChangeByType(int number, QString type);
+    void ChangeByPlace(int number, QString place);
     bool validationByNumber(QString number);
 };
 
